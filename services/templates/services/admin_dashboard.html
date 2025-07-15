@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block content %}
+<div class="admin-dashboard">
+
+  <h2 class="dashboard-title">🛠 {% trans "Admin Dashboard" %}</h2>
+
+  <!-- Filters Section -->
+  <div class="filters {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <form method="get" class="filter-form">
+      <label for="status">{% trans "Status:" %}</label>
+      <select name="status" id="status" onchange="this.form.submit()">
+        <option value="">{% trans "All" %}</option>
+        {% for key, value in status_choices %}
+          <option value="{{ key }}" {% if request.GET.status == key %}selected{% endif %}>{{ value }}</option>
+        {% endfor %}
+      </select>
+    </form>
+
+    <form method="get" class="filter-form ">
+      <label for="user">{% trans "User:" %}</label>
+      <select name="user" id="user" onchange="this.form.submit()">
+        <option value="">{% trans "All Users" %}</option>
+        {% for user in users %}
+          <option value="{{ user.id }}" {% if selected_user == user.id %}selected{% endif %}>{{ user.username }}</option>
+        {% endfor %}
+      </select>
+    </form>
+  </div>
+
+  <!-- Summary Section -->
+  <div class="summary-section {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <h3 class="section-heading">📊 {% trans "Order Summary" %}</h3>
+    <ul class="simple-list">
+      {% for item in status_counts %}
+        <li><strong>{{ item.status }}:</strong> {{ item.count }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="table-responsive {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <table class="dashboard-table">
+      <thead>
+        <tr>
+          <th>{% trans "Order #" %}</th>
+          <th>{% trans "Customer" %}</th>
+          <th>{% trans "Status" %}</th>
+          <th>{% trans "Update" %}</th>
+          <th>{% trans "Email" %}</th>
+          <th>{% trans "Details" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for order in orders %}
+          <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.user.username }}</td>
+            <td>{{ order.get_status_display }}</td>
+            <td>
+              <form method="post" action="{% url 'update_order_status' order.id %}">
+                {% csrf_token %}
+                <select class="status" name="status">
+                  {% for key, value in status_choices %}
+                    <option value="{{ key }}" {% if key == order.status %}selected{% endif %}>{{ value }}</option>
+                  {% endfor %}
+                </select>
+                <button type="submit" class="btn-small">{% trans "Update" %}</button>
+              </form>
+            </td>
+            <td><a href="mailto:{{ order.user.email }}" class="text-link">{% trans "Contact" %}</a></td>
+            <td><a href="{% url 'order_detail' order.id %}" class="text-link">{% trans "Details" %}</a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

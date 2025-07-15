@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load socialaccount i18n %}
+{% block content %}
+<div class="login-container">
+  <h2 class="login-title">🔐 {% trans "Login" %}</h2>
+
+  <form method="post" class="login-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="ta">
+        <button type="submit" class="login-button">{% trans "Login" %}</button>
+        <div class="google">
+          <a href="/accounts/google/login/?process=login" class="google-login-button">
+              <img src="https://www.gstatic.com/images/branding/product/1x/gsa_64dp.png" alt="Google Logo">
+              {% trans "Login with Google" %}
+          </a>
+        </div>
+    </div>
+    <p class="forgot"><a href="{% url 'account_reset_password' %}">{% trans "Forgot your password?" %}</a></p>
+  </form>
+</div>
+{% endblock %}
+
+

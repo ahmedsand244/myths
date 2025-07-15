@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ service.title }}{% endblock %}
+
+{% block content %}
+<div class="service-detail-container">
+
+  <!-- العنوان -->
+  <h1 class="service-title">{{ service.title }}</h1>
+
+  <!-- صورة الخدمة -->
+  <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-image">
+
+  <!-- وصف الخدمة -->
+  <p class="service-description">{{ service.description }}</p>
+
+  <!-- السعر -->
+  <p class="service-price {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">💰 {% trans "Price" %}: {{ service.price }} EGP</p>
+
+  <!-- مقدم الخدمة -->
+  <div class="provider-box {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <h3 class="provider-heading ">👤 {% trans "Service Provider" %}:</h3>
+    {% if service.provider %}
+      <div class="provider-info">
+        <img src="{{ service.provider.profile_picture.url }}" alt="Provider Image" class="provider-img">
+        <div class="provider-details">
+          <p><strong>{% trans "Name" %}:</strong> {{ service.provider.user.username }}</p>
+          <p><strong>{% trans "Bio" %}:</strong> {{ service.provider.bio }}</p>
+          <p><strong>{% trans "Phone" %}:</strong> {{ service.provider.phone }}</p>
+        </div>
+      </div>
+    {% else %}
+      <p class="no-provider">{% trans "No registered provider for this service." %}</p>
+    {% endif %}
+  </div>
+
+  <!-- زر الإضافة إلى السلة -->
+  <form action="{% url 'add_to_cart' service.id %}" method="post" class="add-to-cart-form">
+    {% csrf_token %}
+    <button type="submit" class="add-to-cart-btn">🛒 {% trans "Add to Cart" %}</button>
+  </form>
+
+</div>
+
+
+
+
+{% endblock %}

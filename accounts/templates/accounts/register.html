@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="register-container">
+  <h2 class="register-title">📝 {% trans "Create a New Account" %}</h2>
+  <form method="post" class="register-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="register-button">{% trans "Register" %}</button>
+  </form>
+</div>
+{% endblock %}

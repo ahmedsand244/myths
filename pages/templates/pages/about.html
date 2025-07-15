@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block content %}
+
+<div class="about-section {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h1>{% trans "About Us" %}</h1>
+  <p>
+    {% trans "Our platform connects clients with top-tier service providers in various fields like design, programming, marketing, and more." %}
+  </p>
+</div>
+
+<hr>
+
+<div class="team-section {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h2>{% trans "Our Team" %}</h2>
+  <div class="team-members">
+    {% for member in team_members %}
+    <div class="member">
+      <img src="{{ member.image.url }}" alt="{{ member.name }}" class="team-image">
+      <h3>{{ member.name }}</h3>
+      <p>{{ member.role }}</p>
+      <div class="social-links">
+        {% if member.facebook_url %}
+          <a href="{{ member.facebook_url }}" target="_blank" class="social-icon facebook" title="{% trans 'Facebook' %}">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        {% endif %}
+        {% if member.linkedin_url %}
+          <a href="{{ member.linkedin_url }}" target="_blank" class="social-icon linkedin" title="{% trans 'LinkedIn' %}">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+    {% empty %}
+    <p>{% trans "No team members found." %}</p>
+    {% endfor %}
+  </div>
+</div>
+
+<section class="about-section {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h1 >{% trans "About Us" %}</h1>
+  <p class="about-intro">
+    {% trans "We are a digital platform connecting clients with skilled service providers in design, development, marketing, and more." %}
+  </p>
+
+  <div class="about-cards ">
+    <div class="about-card ">
+      <h3 class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "Our Vision" %}</h3>
+      <p class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        {% trans "To become the leading Arabic platform for digital services, trusted by businesses and individuals alike." %}
+      </p>
+    </div>
+    <div class="about-card ">
+      <h3 class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "Our Mission" %}</h3>
+      <p class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        {% trans "We empower clients by linking them with professionals who deliver high-quality services efficiently and reliably." %}
+      </p>
+    </div>
+    <div class="about-card">
+      <h3 class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "Our Values" %}</h3>
+      <ul class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        <li>{% trans "Transparency & Trust" %}</li>
+        <li>{% trans "Commitment to Quality" %}</li>
+        <li>{% trans "Innovation & Creativity" %}</li>
+        <li>{% trans "Customer Support" %}</li>
+      </ul>
+    </div>
+    <div class="about-card">
+      <h3 class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "Why Choose Us?" %}</h3>
+      <ul class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        <li>{% trans "Top-rated Arabic experts" %}</li>
+        <li>{% trans "Fast & secure service" %}</li>
+        <li>{% trans "Competitive pricing" %}</li>
+        <li>{% trans "24/7 customer support" %}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<div class="partners-section">
+  <h2>{% trans "Success Partners" %}</h2>
+  <div class="partners-wrapper">
+    <div class="partners-track">
+      {% for partner in partners %}
+      <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="partner-logo">
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

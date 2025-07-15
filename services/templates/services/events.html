@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="count">
+
+<!-- === Past Events Section === -->
+<h2 class="section-title {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">📅 {% trans "Past Events & Organizers" %}</h2>
+
+<div class="events-grid {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  {% for event in events %}
+  <div class="event-card">
+    <img src="{{ event.image.url }}" class="event-image" alt="{{ event.title }}">
+    <h3 class="event-title">{{ event.title }}</h3>
+    <p class="event-description">{{ event.description|truncatewords:25 }}</p>
+    <p class="event-date">📅 {{ event.date }}</p>
+    <div class="organizers-list">
+      <strong>{% trans "Organizers" %}:</strong>
+      <ul>
+        {% for organizer in event.organizers.all %}
+        <li>
+          <a href="{% url 'organizer_detail' organizer.id %}" class="organizer-link">
+            {{ organizer.name }}
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<hr class="section-divider">
+
+<!-- === Event Request Form Section === -->
+<h2 class="section-title {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">📝 {% trans "Request a New Event" %}</h2>
+
+<form method="POST" class="event-form {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  {% csrf_token %}
+  <input type="text" name="client_name" placeholder="{% trans 'Your Name' %}" required>
+  <input type="email" name="email" placeholder="{% trans 'Email Address' %}" required>
+  <input type="text" name="phone" placeholder="{% trans 'Phone Number' %}" required>
+  <input type="text" name="event_name" placeholder="{% trans 'Event Title' %}" required>
+  <input type="date" name="date" required>
+  <input type="number" name="number_of_organizers" placeholder="{% trans 'Number of Organizers Needed' %}" required>
+  <textarea name="notes" placeholder="{% trans 'Additional Notes' %}" rows="4"></textarea>
+  <button type="submit" class="submit-btn">🚀 {% trans "Submit Request" %}</button>
+</form>
+
+</div>
+
+{% endblock %}

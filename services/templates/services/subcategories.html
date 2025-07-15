@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Subcategories" %} - {{ category.name }}{% endblock %}
+
+{% block content %}
+<div class="subcategory-container">
+  <h1 class="subcategory-title {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    {% blocktrans with category_name=category.name %}
+      Subcategories for: {{ category_name }}
+    {% endblocktrans %}
+  </h1>
+
+  <div class="subcategory-grid">
+    {% for sub in subcategories %}
+      <a href="{% url 'subcategory_services' sub.id %}" class="subcategory-card">
+        <h2 class="subcategory-name">{{ sub.name }}</h2>
+        <p class="subcategory-desc">{{ sub.description }}</p>
+      </a>
+    {% empty %}
+      <p class="no-subcategories">{% trans "No subcategories available." %}</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

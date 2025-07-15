@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Available Services" %}{% endblock %}
+
+{% block content %}
+<div class="services-pages">
+
+  <h1 class="page-title">{% trans "Available Services" %}</h1>
+
+  {% for category in categories %}
+    <div class="category-blocks">
+      <h2 class="category-titles">
+        <a href="{% url 'subcategories' category.id %}" class="category-links">
+          {{ category.name }}
+        </a>
+      </h2>
+      <p class="category-descriptions">{{ category.description }}</p>
+
+      <ul class="service-lists">
+        {% for service in category.services.all %}
+          <li class="service-items">
+            <strong class="service-titles">{{ service.title }}</strong>
+            <p class="service-descriptions">{{ service.description }}</p>
+            {% if service.image %}
+              <img src="{{ service.image.url }}" loading="lazy" alt="{{ service.title }}" class="service-images">
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endfor %}
+
+</div>
+{% endblock %}

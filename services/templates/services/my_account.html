@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/account.css' %}">
+
+<div class="account-container">
+  <h2 class="section-title ">👤 {% trans "My Account" %}</h2>
+
+  <div class="user-info-card {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <p><strong>{% trans "Username" %}:</strong> {{ user.username }}</p>
+    <p><strong>{% trans "Email" %}:</strong> {{ user.email }}</p>
+  </div>
+
+  <hr>
+
+  <h3 class="section-subtitle {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">🛒 {% trans "My Orders" %}</h3>
+  {% if orders %}
+    <div class="table-wrapper">
+      <table class="orders-table {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        <thead>
+          <tr>
+            <th>{% trans "Order #" %}</th>
+            <th>{% trans "Date & Time" %}</th>
+            <th>{% trans "Status" %}</th>
+            <th>{% trans "Services" %}</th>
+            <th>{% trans "Details" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+            <tr>
+              <td>{{ order.id }}</td>
+              <td>{{ order.created_at|date:"Y-m-d H:i" }}</td>
+              <td><span class="status-badge">{{ order.get_status_display }}</span></td>
+              <td>
+                <ul>
+                  {% for item in order.items.all %}
+                    <li>{{ item.service.name }} ({{ item.quantity }})</li>
+                  {% endfor %}
+                </ul>
+              </td>
+              <td><a href="{% url 'order_detail' order.id %}" class="btn-sm">{% trans "Details" %}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="no-content">{% trans "You don't have any orders yet." %}</p>
+  {% endif %}
+
+  <hr>
+
+  <h3 class="section-subtitle">🛠️ {% trans "Your Services" %}</h3>
+  {% if my_services %}
+    <ul class="service-list">
+      {% for service in my_services %}
+        <li class="service-item">
+          <strong>{{ service.name }}</strong> - {{ service.category.name }}<br>
+          <a href="{% url 'service_detail' service.id %}" class="btn-sm">{% trans "View" %}</a>
+          <a href="{% url 'edit_service' service.id %}" class="btn-sm edit">{% trans "Edit" %}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="no-content">{% trans "You have not added any services yet." %}</p>
+  {% endif %}
+
+  <div class="account-actions">
+    <a href="{% url 'update_account' %}" class="btn">{% trans "Edit Account" %}</a>
+    <a href="{% url 'password_change' %}" class="btn-link">{% trans "Change Password" %}</a>
+  </div>
+</div>
+{% endblock %}

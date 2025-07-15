@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="account-edit-container {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h2 class="form-title">✏️ {% trans "Edit Account" %}</h2>
+
+  <form method="post" class="account-form">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="submit-btn">{% trans "Save" %}</button>
+  </form>
+</div>
+{% endblock %}

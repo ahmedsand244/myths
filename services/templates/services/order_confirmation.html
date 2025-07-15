@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Order Confirmed" %}{% endblock %}
+
+{% block content %}
+
+<div class="me">
+
+  <div class="order-confirmation {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+
+    <h2 class="order-title">✅ {% trans "Your Order Has Been Confirmed!" %}</h2>
+    <br>
+    <p class="order-id">{% trans "Order Number" %}: <strong>#{{ order.id }}</strong></p>
+
+    <table class="order-table ">
+      <thead class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        <tr>
+          <th>{% trans "Service" %}</th>
+          <th>{% trans "Quantity" %}</th>
+          <th>{% trans "Unit Price" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items_with_prices %}
+        <tr>
+          <td>{{ item.title }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.price }} EGP</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <p class="order-total">💰 {% trans "Total Amount" %}: {{ total }} EGP</p>
+    <br>
+    <p class="thank-you">{% trans "Thank you for your purchase!" %} 🙏</p>
+    <br>
+  </div>
+</div>
+{% endblock %}

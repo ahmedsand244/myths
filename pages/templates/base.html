@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+{% load static i18n %}
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}{% trans "Services Site" %}{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    (function() {
+      try {
+        const mode = localStorage.getItem('mode') || 'light';
+        document.documentElement.className = mode + '-mode';
+      } catch(e) {
+        document.documentElement.className = 'light-mode';
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body class="{% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+
+
+<nav class="navbar ">
+  <div class="nav-top">
+    <div class="nav-left">
+      <div class="logo">
+        <img class="logo_dark" src="{% static 'images/Myths Solutions.png' %}" alt="logo_dark">
+      </div>
+    </div>
+    <div class="nav-right">
+      <button class="dark-toggle" onclick="toggleDarkMode()"><i class="fa-solid fa-circle-half-stroke"></i></button>
+
+
+
+<form action="{% url 'set_language' %}" method="post">
+  {% csrf_token %}
+  {% get_current_language as LANGUAGE_CODE %}
+  <select name="language" onchange="this.form.submit()" class="language-select">
+    <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+    <option value="ar" {% if LANGUAGE_CODE == 'ar' %}selected{% endif %}>العربية</option>
+  </select>
+</form>
+
+
+
+      {% if user.is_authenticated %}
+        <a href="{% url 'my_account' %}" class="account-btn"><i class="fa fa-user"></i> {% trans "My Account" %}</a>
+        <a href="{% url 'logout' %}" class="logout-btn">{% trans "Logout" %}</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="login-btn">{% trans "Login" %}</a>
+        <a href="{% url 'register' %}" class="register-btn">{% trans "Register" %}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="nav-bottom {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="{% url 'home' %}" class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">{% trans "Home" %}</a></li>
+      <li><a href="{% url 'about' %}" class="{% if request.resolver_match.url_name == 'about' %}active{% endif %}">{% trans "About Us" %}</a></li>
+      <li><a href="{% url 'services_list' %}" class="{% if request.resolver_match.url_name == 'services_list' %}active{% endif %}">{% trans "Services" %}</a></li>
+      <li><a href="{% url 'events' %}" class="{% if request.resolver_match.url_name == 'events' %}active{% endif %}">{% trans "Events" %}</a></li>
+      <li><a href="{% url 'contact' %}" class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}">{% trans "Contact" %}</a></li>
+      <li><a href="{% url 'cart' %}" class="{% if request.resolver_match.url_name == 'cart' %}active{% endif %}">{% trans "Cart" %}</a></li>
+      <li><a href="{% url 'all_organizers' %}" class="{% if request.resolver_match.url_name == 'all_organizers' %}active{% endif %}">{% trans "Organizers" %}</a></li>
+      {% if user.is_staff %}
+        <li><a href="{% url 'admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">{% trans "Dashboard" %}</a></li>
+      {% endif %}
+      {% if user.is_authenticated %}
+        <a href="{% url 'my_account' %}" class="account_me">{% trans "My Account" %}</a>
+        <a href="{% url 'logout' %}" class="logout_me">{% trans "Logout" %}</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="login_me">{% trans "Login" %}</a>
+        <a href="{% url 'register' %}" class="register_me">{% trans "Register" %}</a>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
+<main class="main-content ">
+  {% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <div class="footer-top">
+    <div class="footer-container">
+      <div class="footer-column brand">
+        <div class="footer-logo">
+          <img src="{% static 'images/Myths Solutions.png' %}" alt="Site Logo">
+        </div>
+        <p class="footer-description">{% trans "Your trusted platform for booking events and services seamlessly." %}</p>
+      </div>
+
+      <div class="footer-column links">
+        <h3>{% trans "Quick Links" %}</h3>
+        <ul>
+          <li><a href="{% url 'home' %}">{% trans "Home" %}</a></li>
+          {% if user.is_staff %}
+            <li><a href="{% url 'admin_dashboard' %}">{% trans "Dashboard" %}</a></li>
+          {% endif %}
+          <li><a href="{% url 'about' %}">{% trans "About Us" %}</a></li>
+          <li><a href="{% url 'services_list' %}">{% trans "Services" %}</a></li>
+          <li><a href="{% url 'events' %}">{% trans "Events" %}</a></li>
+          <li><a href="{% url 'contact' %}">{% trans "Contact" %}</a></li>
+          <li><a href="{% url 'cart' %}">{% trans "Cart" %}</a></li>
+          <li><a href="{% url 'all_organizers' %}">{% trans "Organizers" %}</a></li>
+          <li><a href="{% url 'my_account' %}">{% trans "My Account" %}</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+          {% else %}
+            <li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
+            <li><a href="{% url 'register' %}">{% trans "Register" %}</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="footer-column social">
+        <h3>{% trans "Connect With Us" %}</h3>
+        <div class="social-icons">
+          <a href="https://www.facebook.com/profile.php?id=61577359341269" target="_blank" class="fb"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://twitter.com" target="_blank" class="tw"><i class="fa-brands fa-x-twitter"></i></a>
+          <a href="https://www.instagram.com/myths_solutions/" target="_blank" class="ig"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.linkedin.com/company/myths-solutions/" target="_blank" class="li"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://youtube.com" target="_blank" class="yt"><i class="fab fa-youtube"></i></a>
+          <a href="https://wa.me/201234567890" target="_blank" class="wa"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-column contact">
+        <h3>{% trans "Contact Us" %}</h3>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> {% trans "123 Main Street, Cairo, Egypt" %}</li>
+          <li><i class="fas fa-phone"></i> +20 123 456 7890</li>
+          <li><i class="fas fa-envelope"></i> myths.solutions@gmail.com</li>
+          <li><i class="fas fa-clock"></i> {% trans "Mon - Fri: 9:00 - 18:00" %}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2025 - {% trans "Services site by Ahmed Torky. All rights reserved." %}</p>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById("navLinks").classList.toggle("show");
+  }
+
+  function toggleDarkMode() {
+    const html = document.documentElement;
+    if (html.classList.contains("dark-mode")) {
+      html.classList.remove("dark-mode");
+      html.classList.add("light-mode");
+      localStorage.setItem("mode", "light");
+    } else {
+      html.classList.remove("light-mode");
+      html.classList.add("dark-mode");
+      localStorage.setItem("mode", "dark");
+    }
+  }
+</script>
+</body>
+</html>

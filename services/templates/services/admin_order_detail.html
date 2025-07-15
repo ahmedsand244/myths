@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Order Details" %}{% endblock %}
+
+{% block content %}
+<div class="order-details-container">
+  <h2 class="order-heading {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">🧾 {% trans "Order" %} #{{ order.id }} {% trans "Details" %}</h2>
+
+  <div class="order-meta {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <p><strong>👤 {% trans "User" %}:</strong> {{ order.user.username }}</p>
+    <p><strong>📅 {% trans "Created At" %}:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
+    <p><strong>📦 {% trans "Status" %}:</strong> {{ order.get_status_display }}</p>
+  </div>
+
+  <hr>
+
+  <h5 class="service-heading {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">🛒 {% trans "Ordered Services" %}:</h5>
+  <ul class="service-list {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    {% for item in order.items.all %}
+      <li class="service-itema {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        <p>
+          <div class="Titleofservice {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+            <strong>{% trans "Title of service" %}:</strong> {{ item.service.title }}
+          </div>
+          <br>
+          {% if item.service.provider %}
+            <div class="provider {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+              <strong>{% trans "Provider" %}:</strong> {{ item.service.provider.user.username }}<br>
+            </div>
+          {% endif %}
+          <br>
+          <strong>{% trans "Amount & Price" %}:</strong> {{ item.quantity }} × {{ item.service.price }} EGP
+        </p>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <div class="total-price {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <h4><strong>💰 {% trans "Total" %}:</strong> {{ order.total_price|floatformat:2 }} EGP</h4>
+  </div>
+
+  <div class="text-center mt-4">
+    <button onclick="window.print()" class="btn-print">
+      🖨️ {% trans "Print Invoice" %}
+    </button>
+  </div>
+</div>
+{% endblock %}

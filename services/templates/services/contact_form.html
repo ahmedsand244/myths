@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<h2 class="page-title">{% trans "Contact" %} {{ organizer.name }}</h2>
+
+<form method="POST" class="contact-form">
+  {% csrf_token %}
+  
+  <input type="text" name="name" placeholder="{% trans 'Your Name' %}" class="form-input" required>
+  
+  <textarea name="message" rows="5" placeholder="{% trans 'Write your message' %}" class="form-textarea" required></textarea>
+  
+  <button type="submit" class="submit-btn">{% trans "Send Message" %}</button>
+</form>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% blocktrans with name=subcategory.name %}Services in {{ name }}{% endblocktrans %}{% endblock %}
+
+{% block content %}
+<div class="services-container">
+  <h1 class="services-title {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    🧰 {% blocktrans with name=subcategory.name %}Services in: {{ name }}{% endblocktrans %}
+  </h1>
+
+  {% if services %}
+    <div class="services-grid">
+      {% for service in services %}
+        <div class="service-card">
+          <h3 class="service-name">
+            <a href="{% url 'service_detail' service.id %}" class="service-link">
+              {{ service.title }}
+            </a>
+          </h3>
+          <p class="service-description">{{ service.description|truncatewords:20 }}</p>
+          <a href="{% url 'service_detail' service.id %}" class="card-btn">🔍 {% trans "View Details" %}</a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-services">{% trans "No services found in this subcategory." %}</p>
+  {% endif %}
+</div>
+{% endblock %}

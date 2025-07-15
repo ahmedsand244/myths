@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Shopping Cart" %}{% endblock %}
+
+{% block content %}
+<div class="me">
+
+<h1 class="cart-title {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %} ">🛒 {% trans "Shopping Cart" %}</h1>
+
+{% if cart_items %}
+<table class="cart-table {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+    <thead>
+        <tr>
+            <th>{% trans "Service" %}</th>
+            <th>{% trans "Quantity" %}</th>
+            <th>{% trans "Unit Price" %}</th>
+            <th>{% trans "Remove" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_items %}
+        <tr>
+            <td>{{ item.service.title }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.service.price }} EGP</td>
+            <td>
+                <form action="{% url 'remove_from_cart' item.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="remove-btn">❌</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p class="cart-total {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}"><strong>{% trans "Total" %}:</strong> {{ total_price }} EGP</p>
+
+<a href="{% url 'checkout' %}">
+    <button class="checkout-btn {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "Confirm Order" %} 💳</button>
+</a>
+
+{% else %}
+<p class="empty-cart {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "Your cart is currently empty." %}</p>
+{% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="event-confirmation {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h2 class="event-title">{% trans "✅ Event Request Sent Successfully!" %}</h2>
+  <p class="event-message">{% trans "We will contact you soon to review the event details." %}</p>
+  <a href="{% url 'events' %}" class="event-back-link">🔙 {% trans "Back to Events Page" %}</a>
+</div>
+{% endblock %}

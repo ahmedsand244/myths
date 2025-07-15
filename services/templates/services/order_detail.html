@@ -1,0 +1,41 @@
+<!-- 
+
+{% extends 'base.html' %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+<div class="order-details-container">
+    <h2 class="order-heading">🧾 Order # {{ order.id }} Details</h2>
+
+    <div class="order-meta">
+        <p><strong>👤 User:</strong> {{ order.user.username }}</p>
+        <p><strong>📅 Created At:</strong> {{ order.created_at|date:"Y-m-d H:i" }}</p>
+        <p><strong>📦 Status:</strong> {{ order.get_status_display }}</p>
+    </div>
+
+    <hr>
+
+    <h5 class="service-heading">🛒 Ordered Services:</h5>
+    <ul class="service-list">
+        {% for item in order.items.all %}
+            <li class="service-item">
+                <p>
+                    <strong>{{ item.service.title }}</strong><br><br>
+                    {{ item.quantity }} × {{ item.service.price }} EGP
+                </p>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="total-price">
+        <h4><strong>💰 Total:</strong> {{ order.total_price|floatformat:2 }} EGP</h4>
+    </div>
+
+    <div class="text-center mt-4">
+        <button onclick="window.print()" class="btn-print">
+            🖨️ Print Invoice
+        </button>
+    </div>
+</div>
+{% endblock %} -->

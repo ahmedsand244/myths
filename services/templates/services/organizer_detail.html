@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+<div class="profile-container">
+
+  <!-- Organizer Profile Info -->
+  <img src="{{ organizer.image.url }}" class="profile-image" alt="{{ organizer.name }}">
+  <h2 class="profile-name">{{ organizer.name }}</h2>
+  <p class="profile-bio">{{ organizer.bio }}</p>
+
+  <hr class="divider">
+
+  <!-- Work Gallery -->
+  <h3 class="section-title">📸 {% trans "Previous Work" %}</h3>
+  <div class="work-gallery">
+    {% for work in organizer.works.all %}
+      <div class="work-item">
+        <img src="{{ work.image.url }}" class="work-image" alt="{{ work.title }}">
+        <p class="work-title">{{ work.title }}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+  <hr class="divider">
+
+  <!-- Reviews Section -->
+  <h3 class="section-title {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">⭐ {% trans "Customer Reviews" %}</h3>
+  <p class="total-reviews {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% blocktrans %}Total Reviews: {{ total_reviews }}{% endblocktrans %}</p>
+
+  {% if reviews %}
+    {% for review in reviews %}
+      <div class="review-box {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        <p class="reviewer-name">{{ review.reviewer_name }}</p>
+        <p class="review-rating">{% blocktrans %}Rating: {{ review.rating }} / 5{% endblocktrans %}</p>
+        <p class="review-comment">{{ review.comment }}</p>
+        <p class="review-date">{{ review.created_at|date:"Y-m-d" }}</p>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="no-reviews">{% trans "No reviews yet." %}</p>
+  {% endif %}
+
+</div>
+{% endblock %}
+
+
+
+
+  <!-- <div class="rating-summary">
+  <p class="rating-score">⭐ {{ average_rating }} / 5</p>
+  <p class="review-count">({{ total_reviews }} تقييم)</p>
+</div> -->
+
+
+
+
+
+
+  <!-- ⭐ Average Rating
+<div class="average-ratingm">
+  <h4>⭐ Average Rating: {{ average_rating }} / 5</h4>
+  <div class="star-displaym">
+    {% for i in "12345" %}
+      {% if forloop.counter <= average_rating|floatformat:0 %}
+        <span class="star filledm">★</span>
+      {% else %}
+        <span class="starm">☆</span>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div> -->

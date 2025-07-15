@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Search Results" %}{% endblock %}
+
+{% block content %}
+<div class="search-results-container">
+
+  <h2 class="search-heading">
+    {% blocktrans %}Search results for "{{ query }}":{% endblocktrans %}
+  </h2>
+
+  <!-- 🛠️ Services Section -->
+  <div class="result-section">
+    <h3 class="section-title">🛠️ {% trans "Services" %}</h3>
+    {% if service_results %}
+      <ul class="result-list blue">
+        {% for s in service_results %}
+          <li><a href="{% url 'service_detail' s.id %}">{{ s.title }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-results">{% trans "No matching services found." %}</p>
+    {% endif %}
+  </div>
+
+  <!-- 🧑‍💼 Providers Section -->
+  <div class="result-section">
+    <h3 class="section-title">🧑‍💼 {% trans "Service Providers" %}</h3>
+    {% if provider_results %}
+      <ul class="result-list gray">
+        {% for p in provider_results %}
+          <li>{{ p.user.get_full_name|default:p.user.username }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-results">{% trans "No matching providers found." %}</p>
+    {% endif %}
+  </div>
+
+  <!-- 🎯 Organizers Section (uncomment if needed) -->
+  {# 
+  <div class="result-section">
+    <h3 class="section-title">🎯 {% trans "Organizers" %}</h3>
+    {% if organizer_results %}
+      <ul class="result-list yellow">
+        {% for o in organizer_results %}
+          <li><a href="{% url 'organizer_detail' o.id %}">{{ o.user.username }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-results">{% trans "No matching organizers found." %}</p>
+    {% endif %}
+  </div>
+  #}
+
+  <!-- 📅 Events Section -->
+  <div class="result-section">
+    <h3 class="section-title">📅 {% trans "Events" %}</h3>
+    {% if event_results %}
+      <ul class="result-list green">
+        {% for e in event_results %}
+          <li><a href="{% url 'events' %}" class="text-green-700 hover:underline">{{ e.title }}</a></li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-results">{% trans "No matching events found." %}</p>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

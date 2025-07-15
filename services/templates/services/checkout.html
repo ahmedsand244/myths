@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "Confirm Order" %}{% endblock %}
+
+{% block content %}
+<div class="me">
+    <h2 class="checkout-title {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">📦 {% trans "Confirm Your Order" %}</h2>
+
+    <table class="checkout-table {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+        <thead>
+            <tr>
+                <th>{% trans "Service" %}</th>
+                <th>{% trans "Quantity" %}</th>
+                <th>{% trans "Unit Price" %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.service.title }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.service.price }} EGP</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p class="checkout-total {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}"><strong>{% trans "Total" %}:</strong> {{ total_price }} EGP</p>
+
+    <form method="post" class="checkout-form">
+        {% csrf_token %}
+        <button type="submit" class="confirm-btn {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "Confirm Order" %}</button>
+    </form>
+</div>
+{% endblock %}

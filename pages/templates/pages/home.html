@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Home" %}{% endblock %}
+
+{% block content %}
+
+<div class="home_image">
+  <h1 class="page-title_home {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "Welcome to Our Platform!" %}</h1>
+  <p class="page-subtitle {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">{% trans "What would you like to get done today?" %}</p>
+
+  <!-- 🔍 Search Bar -->
+  <form method="get" action="{% url 'search_services' %}" class="search-form">
+    <input type="text" name="q" placeholder="{% trans 'Search for a service...' %}" class="search-input">
+    <button type="submit" class="search-button">{% trans "Search" %}</button>
+  </form>
+</div>
+
+<!-- 🛠️ Services -->
+<div class="section-blockm {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h2 class="services-headingm">{% trans "Our Services" %}</h2>
+  <div class="services-gridm">
+    {% for service in services %}
+      <div class="service-cardm">
+        <div class="service-card-bodym">
+          <h3 class="service-titlem">{{ service.title }}</h3>
+          <p class="service-descm">{% trans "Skills " %} : {{ service.description|truncatechars:60 }}</p>
+          <a href="{% url 'service_detail' service.id %}" class="service-linkm">{% trans "View Details" %}</a>
+        </div>
+      </div>
+    {% empty %}
+      <p class="no-servicesm">{% trans "No services available." %}</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 🗓️ Latest Events -->
+<div class="events-cardm {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h3 class="events-titlem">📅 {% trans "Latest Events" %}</h3>
+  <div class="events-listm">
+    {% for event in events %}
+      <div class="event-itemm">
+        <h4 class="event-titlem">{% trans "Title" %} : {{ event.title }}</h4>
+        <p class="event-datem">{% trans "Time" %} : {{ event.date }} 🕒</p>
+        <a href="{% url 'events' %}" class="event-linkm">🔗 {% trans "View All" %}</a>
+      </div>
+    {% empty %}
+      <p class="no-eventsm">{% trans "No events currently available." %}</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 👥 Top Providers -->
+<div class="section-blockm {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h3 class="providers-heading">{% trans "Service Providers" %}</h3>
+  <div class="provider-cards">
+    {% for provider in providers %}
+      <div class="provider-card">
+        <img src="{{ provider.profile_picture.url }}" alt="Profile" class="provider-img">
+        <h4 class="provider-name">{{ provider.user.username }}</h4>
+      </div>
+    {% empty %}
+      <p class="no-providers">{% trans "No providers available." %}</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- 🤝 Success Partners -->
+<div class="section-blockm">
+  <div class="partners-section">
+    <h2 class="providers-he">{% trans "Success Partners" %}</h2>
+    <div class="partners-wrapper">
+      <div class="partners-track">
+        {% for partner in partners %}
+          <img src="{{ partner.logo.url }}" alt="{{ partner.name }}" class="partner-logo">
+        {% empty %}
+          <p>{% trans "No partners available." %}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

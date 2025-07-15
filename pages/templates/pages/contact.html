@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Contact Us" %}{% endblock %}
+
+{% block content %}
+<div class="contact-section {% if LANGUAGE_CODE == 'ar' %}rtl{% else %}ltr{% endif %}">
+  <h1>📬 {% trans "Contact Us" %}</h1>
+  <p>{% trans "We’d love to hear from you. Please fill out the form below or reach out directly." %}</p>
+
+  <ul class="contact-info">
+    <li>📞 {% trans "Phone" %}: 01012345678</li>
+    <li>📧 {% trans "Email" %}: myths.solutions@gmail.com</li>
+    <li>📍 {% trans "Address" %}: Cairo, Egypt</li>
+  </ul>
+
+  {% if success %}
+    <p class="success-msg">✅ {% trans "Your message has been sent successfully!" %}</p>
+  {% endif %}
+
+  <form method="post" action="{% url 'contact' %}" class="contact-form">
+    {% csrf_token %}
+    <label for="name">{% trans "Name:" %}</label>
+    <input type="text" name="name" required placeholder="{% trans 'Your full name' %}">
+
+    <label for="email">{% trans "Email:" %}</label>
+    <input type="email" name="email" required placeholder="{% trans 'Your email address' %}">
+
+    <label for="message">{% trans "Message:" %}</label>
+    <textarea name="message" rows="5" required placeholder="{% trans 'Write your message...' %}"></textarea>
+
+    <button type="submit" class="submit-btn">📨 {% trans "Send Message" %}</button>
+  </form>
+</div>
+{% endblock %}
