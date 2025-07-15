@@ -1,0 +1,36 @@
+# بيئة التشغيل الافتراضية
+.venv/
+env/
+venv/
+
+# إعدادات PyCharm أو VS Code أو أي IDE
+.idea/
+.vscode/
+
+# ملفات النظام المؤقتة
+__pycache__/
+*.py[cod]
+*$py.class
+
+# قاعدة البيانات المحلية
+db.sqlite3
+
+# ملفات الوسائط
+/media/
+
+# الملفات الناتجة من التجميع
+/staticfiles/
+
+# ملف البيئة
+.env
+
+# ملفات الترجمة المؤقتة
+*.mo
+*.pot
+
+# Logs
+*.log
+
+# ملفات مؤقتة في النظام
+.DS_Store
+Thumbs.db
