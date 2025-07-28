@@ -18,7 +18,7 @@
     {% for member in team_members %}
     <div class="member">
       <img src="{{ member.image.url }}" alt="{{ member.name }}" class="team-image">
-      <h3>{{ member.name }}</h3>
+      <h3 style="margin-bottom: 0;" >{{ member.name }}</h3>
       <p>{{ member.role }}</p>
       <div class="social-links">
         {% if member.facebook_url %}
