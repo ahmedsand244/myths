@@ -520,7 +520,7 @@ html.dark-mode .foot {
 
 .member {
     background-color: #ecf0f1;
-    padding: 1rem;
+    padding: 30px 1rem;
     border-radius: 10px;
     width: 250px;
     box-shadow: 0 2px 6px rgba(0,0,0);
@@ -751,8 +751,10 @@ html.dark-mode .member {
 
 /* ✅ الوضع الليلي لشركاء النجاح */
 html.dark-mode .partners-section {
-  background-color: #1e1e1e;
-  padding-bottom: 70px;
+    background-color: #1e1e1e;
+    padding-bottom: 70px;
+    top: 74px;
+    position: relative;
 }
 
 html.dark-mode .partner-logo {
